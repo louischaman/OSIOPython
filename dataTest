@@ -1,0 +1,56 @@
+import api as api
+import json
+from datetime import datetime
+
+
+apikey = "3ab92378-ea55-4dac-80f1-c8beb53b8c8c"
+
+topic_data = api.messages_by_topic (apikey, "/users/Louis/ODI/airquality")
+
+json_data = json.loads(topic_data)
+
+messages = json_data["messages"]
+
+datelist = []
+data1= []
+data2= []
+
+for me in messages:
+
+	dataOK = 0;
+	# print me
+
+	if me['device']=='964':
+		dataOK = 1;
+
+	print 'woop'
+
+	dateStr = me['date']
+
+	payloadStr = me['payload']
+
+	# print payloadStr
+
+	# print type(payloadStr["text"])
+
+	try:
+		dt_start =  datetime.strptime(dateStr, '%Y-%m-%dT%H:%M:%S.%fZ')
+	except ValueError:
+		dataOK = 0;
+		print "Incorrect format"
+	else :
+		print "ok DATE"
+		pass
+
+	if dataOK==1:
+		#datelist = datelist + [dt_start]
+		print payloadStr["text"]
+
+
+
+
+tt = dt_start.timetuple()
+for it in tt:   
+	print it
+
+print json_data["next"]
